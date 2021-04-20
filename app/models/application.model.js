@@ -15,6 +15,7 @@ module.exports = connection => {
         type: String,
         required: true
       },
+      skills: { type: [{ type: String }], default: [] },
       experience: {
         type: Number,
         default: 0

@@ -18,6 +18,12 @@ module.exports = application => {
       },
       {
         action: "GET",
+        path: "/for-job/:jobId",
+        before: [pie.middlewares.auth()],
+        resolve: application.getForJob
+      },
+      {
+        action: "GET",
         path: "/:applicationId",
         before: [pie.middlewares.auth()],
         resolve: application.get
