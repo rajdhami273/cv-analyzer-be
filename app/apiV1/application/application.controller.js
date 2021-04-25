@@ -1,106 +1,111 @@
 const { filterObject, toObjectId, model } = pie.services.util;
 const models = pie.models;
 module.exports = {
-  apply: req => {
+  apply: (req) => {
     const doc = req.body;
     return new models.application({
       user: req.user._id,
-      ...doc
+      emailGrade: pie.services.emailscore.getProfessionalEmailScore(
+        doc.email,
+        req.user.firstName || "",
+        req.user.lastName || ""
+      ),
+      ...doc,
     }).save();
   },
-  getUserSpecific: req => {
+  getUserSpecific: (req) => {
     return models.application.aggregateSkipDelete([
       {
         $match: {
           $expr: {
-            $eq: ["$user", req.user._id]
-          }
-        }
+            $eq: ["$user", req.user._id],
+          },
+        },
       },
       {
         $lookup: {
           from: pie.db.models.job.collection.collectionName,
           localField: "job",
           foreignField: "_id",
-          as: "jobDetails"
-        }
+          as: "jobDetails",
+        },
       },
       {
         $match: {
           $expr: {
-            $gt: [{ $size: "$jobDetails" }, 0]
-          }
-        }
+            $gt: [{ $size: "$jobDetails" }, 0],
+          },
+        },
       },
       {
-        $unwind: "$jobDetails"
-      }
+        $unwind: "$jobDetails",
+      },
     ]);
   },
-  get: req => {
+  get: (req) => {
     return models.application
       .aggregateSkipDelete([
         {
           $match: {
             $expr: {
-              $eq: ["$_id", toObjectId(req.params.applicationId)]
-            }
-          }
+              $eq: ["$_id", toObjectId(req.params.applicationId)],
+            },
+          },
         },
         {
           $lookup: {
             from: pie.db.models.job.collection.collectionName,
             localField: "job",
             foreignField: "_id",
-            as: "jobDetails"
-          }
+            as: "jobDetails",
+          },
         },
         {
           $match: {
             $expr: {
-              $gt: [{ $size: "$jobDetails" }, 0]
-            }
-          }
+              $gt: [{ $size: "$jobDetails" }, 0],
+            },
+          },
         },
         {
-          $unwind: "$jobDetails"
-        }
+          $unwind: "$jobDetails",
+        },
       ])
-      .then(d => {
+      .then((d) => {
         if (d.length) {
           return d[0];
         }
       });
   },
-  getForJob: req => {
+  getForJob: (req) => {
     return models.application.aggregateSkipDelete([
       {
         $match: {
           $expr: {
-            $eq: ["$job", toObjectId(req.params.jobId)]
-          }
-        }
+            $eq: ["$job", toObjectId(req.params.jobId)],
+          },
+        },
       },
       {
         $lookup: {
           from: pie.db.models.job.collection.collectionName,
           localField: "job",
           foreignField: "_id",
-          as: "jobDetails"
-        }
+          as: "jobDetails",
+        },
       },
       {
         $match: {
           $expr: {
-            $gt: [{ $size: "$jobDetails" }, 0]
-          }
-        }
+            $gt: [{ $size: "$jobDetails" }, 0],
+          },
+        },
       },
       {
-        $unwind: "$jobDetails"
+        $unwind: "$jobDetails",
       },
       {
-        $addField: {
+        $addFields: {
           aggregate: {
             $divide: [
               {
@@ -108,17 +113,20 @@ module.exports = {
                   "$aptitudeGrade",
                   "$personalityGrade",
                   "$skillsGrade",
-                  "$experienceGrade"
-                ]
+                  "$experienceGrade",
+                  "$emailGrade",
+                ],
               },
-              400
-            ]
-          }
-        }
+              500,
+            ],
+          },
+        },
       },
       {
-        $sort: "$aggregate"
-      }
+        $sort: {
+          aggregate: -1,
+        },
+      },
     ]);
     // .then(d => {
     //   if (d.length) {
@@ -126,11 +134,11 @@ module.exports = {
     //   }
     // });
   },
-  changeStatus: req => {
+  changeStatus: (req) => {
     return pie.db.models.application.findByIdAndUpdate(
       req.params.applicationId,
       { status: req.body.status },
       { new: true }
     );
-  }
+  },
 };

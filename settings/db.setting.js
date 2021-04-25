@@ -18,7 +18,7 @@ module.exports = {
           ]);
         };
         schema.statics.softDeleteById = function(id) {
-          console.log(id);
+          // console.log(id);
           return this.findByIdAndUpdate(
             id,
             { $set: { deleted: true } },

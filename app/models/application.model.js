@@ -1,61 +1,69 @@
-module.exports = connection => {
+module.exports = (connection) => {
   return {
     schema: {
       user: {
         type: pie.Types.ObjectId,
         ref: "user",
-        required: true
+        required: true,
       },
       job: {
         type: pie.Types.ObjectId,
         ref: "job",
-        required: true
+        required: true,
       },
       email: {
         type: String,
-        required: true
+        required: true,
       },
       skills: { type: [{ type: String }], default: [] },
       experience: {
         type: Number,
-        default: 0
+        default: 0,
       },
       desiredLocation: {
         type: String,
-        default: ""
+        default: "",
       },
       aptitudeQuestions: {
         type: [],
-        default: []
+        default: [],
       },
       personalityQuestions: {
         type: [],
-        default: []
+        default: [],
       },
       aptitudeGrade: {
         type: Number,
-        default: 0
+        default: 0,
       },
       personalityGrade: {
         type: Number,
-        default: 0
+        default: 0,
       },
       skillsGrade: {
         type: Number,
-        default: 0
+        default: 0,
       },
       experienceGrade: {
         type: Number,
-        default: 0
+        default: 0,
+      },
+      emailGrade: {
+        type: Number,
+        default: 0,
       },
       status: {
         type: String,
         enum: ["pending", "viewed", "accepted", "rejected"],
-        default: "pending"
-      }
+        default: "pending",
+      },
+      resume: {
+        type: String,
+        required: true,
+      },
     },
     options: {
-      timestamps: true
-    }
+      timestamps: true,
+    },
   };
 };

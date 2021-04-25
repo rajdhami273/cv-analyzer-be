@@ -102,7 +102,7 @@ module.exports = connection => {
         return bcryptjs.compareSync(password, this.password);
       },
       hashPassword() {
-        console.log(this.password);
+        // console.log(this.password);
         this.password = hasher(this.password);
       },
       generateSession() {
