@@ -18,7 +18,7 @@ module.exports = {
     // console.log(tempEmail, emailTemplates);
     // if (emailTemplates.filter((item) => item.indexOf(email) > -1)) return 100;
     tempEmail = tempEmail.replace(first, "").replace(last, "");
-    if (tempEmail.length < 1) {
+    if ((tempEmail.length <= 1 && (tempEmail == "_") || tempEmail == ".")) {
       return 100;
     }
     if (tempEmail.length < 3) {
