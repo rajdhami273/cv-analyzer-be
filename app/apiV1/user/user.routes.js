@@ -1,18 +1,18 @@
-module.exports = user => {
+module.exports = (user) => {
   return {
     options: {
-      defaultRoutes: false
+      defaultRoutes: false,
     },
     routes: [
       {
         action: "POST",
         path: "/login",
-        resolve: user.login
+        resolve: user.login,
       },
       {
         action: "POST",
         path: "/register",
-        resolve: user.register
+        resolve: user.register,
       },
       {
         action: "GET",
@@ -20,25 +20,43 @@ module.exports = user => {
         before: [
           // pie.middlewares.auth()
         ],
-        resolve: user.getAll
+        resolve: user.getAll,
       },
       {
         action: "GET",
         path: "/me",
         before: [pie.middlewares.auth()],
-        resolve: user.getMe
+        resolve: user.getMe,
+      },
+      {
+        action: "GET",
+        path: "/email-grade",
+        before: [pie.middlewares.auth()],
+        resolve: user.getEmailGrade,
+      },
+      {
+        action: "GET",
+        path: "/get-aggregate-grade",
+        before: [pie.middlewares.auth()],
+        resolve: user.getAggregateGrades,
+      },
+      {
+        action: "GET",
+        path: "/job-and-applications",
+        before: [pie.middlewares.auth()],
+        resolve: user.getJobsAndApplications,
       },
       {
         action: "PUT",
         path: "/edit-profile",
         before: [pie.middlewares.auth()],
-        resolve: user.editProfile
+        resolve: user.editProfile,
       },
       {
         action: "PUT",
         path: "/change-password",
         before: [pie.middlewares.auth()],
-        resolve: user.changePassword
+        resolve: user.changePassword,
       },
 
       // Forgot password
@@ -48,7 +66,7 @@ module.exports = user => {
         before: [
           // pie.middlewares.auth()
         ],
-        resolve: user.sendResetPasswordLink
+        resolve: user.sendResetPasswordLink,
       },
       {
         action: "PUT",
@@ -56,9 +74,9 @@ module.exports = user => {
         before: [
           // pie.middlewares.auth()
         ],
-        resolve: user.resetPassword
-      }
+        resolve: user.resetPassword,
+      },
       // Forgot password END
-    ]
+    ],
   };
 };
