@@ -29,22 +29,28 @@ module.exports = {
       return withMessage
         ? {
             message:
-              "Minor changes. Can you remove these characters?" + tempEmail,
+              "Minor changes. Can you remove these characters? ==>'" +
+              tempEmail +
+              "'",
             score: 75,
           }
         : 75;
     }
     if (tempEmail.length < 4) {
       return withMessage
-        ? { message: "Can you remove these characters?" + tempEmail, score: 50 }
+        ? {
+            message: "Can you remove these characters? ==>'" + tempEmail + "'",
+            score: 50,
+          }
         : 50;
     }
     if (tempEmail.length < 6) {
       return withMessage
         ? {
             message:
-              "These extra characters makes it difficult to remember. Can you remove these characters?" +
-              tempEmail,
+              "These extra characters makes it difficult to remember. Can you remove these characters? ==>'" +
+              tempEmail +
+              "'",
             score: 25,
           }
         : 25;

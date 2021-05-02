@@ -7,7 +7,8 @@ module.exports = (filePath) => ({ req, res, next, reject }) => {
       req.body.resumeDetailsFromExpress = JSON.parse(file);
       request.get(
         "http://127.0.0.1:5000/parse-resume?resumepath=" +
-          "app/public/resumes/resume-1619001208590.pdf",
+          "app/public/" +
+          req.body.file,
         (err, pyres) => {
           if (err) {
             console.log(err);
