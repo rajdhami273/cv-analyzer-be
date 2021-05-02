@@ -18,6 +18,8 @@ How to install: https://pypi.org/project/resume-parser/
 
 Steps to use:
 1. Install above mentioned pre-requisites globally and should be accessible from cmd
-2. npm i
-3. nodemon app
-4. python3 flask_server.py
+2. cmd1: npm i
+3. cmd2: nodemon app
+4. cmd3: python3 flask_server.py
+
+(Make sure while using cmd we are in the backend root directory)
