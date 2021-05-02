@@ -21,5 +21,6 @@ Steps to use:
 2. cmd1: npm i
 3. cmd2: nodemon app
 4. cmd3: python3 flask_server.py
+cmd: command line interface
 
 (Make sure while using cmd we are in the backend root directory)
